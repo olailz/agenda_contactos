@@ -22,6 +22,6 @@ const contactoSchema = new mongoose.Schema({
       message: "Correo inválido"
     }
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Contacto', contactoSchema);

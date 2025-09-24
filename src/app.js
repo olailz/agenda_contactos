@@ -1,24 +1,26 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
+const connectDB = require('./config/db');
 
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
 
-// Rutas
+// Servir frontend desde carpeta public
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Rutas API
 const contactoRoutes = require('./routes/contacto.routes');
 app.use('/api/contactos', contactoRoutes);
 
-// Conectar a Mongo
+// Conectar a Mongo y levantar servidor
 const PORT = process.env.PORT || 3000;
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ Conectado a MongoDB");
-    app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
-  })
-  .catch(err => console.error("❌ Error al conectar MongoDB:", err));
+connectDB().then(() => {
+  app.listen(PORT, () =>
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
+  );
+});

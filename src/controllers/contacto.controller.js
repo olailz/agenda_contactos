@@ -1,6 +1,6 @@
 const Contacto = require('../models/contacto.model');
 
-// Crear
+// Crear contacto
 exports.createContacto = async (req, res) => {
   try {
     const contacto = new Contacto(req.body);
@@ -11,23 +11,19 @@ exports.createContacto = async (req, res) => {
   }
 };
 
-// Listar todos
+// Listar contactos
 exports.getContactos = async (req, res) => {
   try {
     const { nombre } = req.query;
-    let contactos;
-    if (nombre) {
-      contactos = await Contacto.find({ nombre: new RegExp(nombre, 'i') });
-    } else {
-      contactos = await Contacto.find();
-    }
+    const filtro = nombre ? { nombre: new RegExp(nombre, 'i') } : {};
+    const contactos = await Contacto.find(filtro);
     res.json(contactos);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Obtener uno
+// Obtener un contacto por ID
 exports.getContactoById = async (req, res) => {
   try {
     const contacto = await Contacto.findById(req.params.id);
@@ -38,10 +34,14 @@ exports.getContactoById = async (req, res) => {
   }
 };
 
-// Actualizar
+// Actualizar contacto
 exports.updateContacto = async (req, res) => {
   try {
-    const contacto = await Contacto.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const contacto = await Contacto.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
     if (!contacto) return res.status(404).json({ error: "No encontrado" });
     res.json(contacto);
   } catch (error) {
@@ -49,7 +49,7 @@ exports.updateContacto = async (req, res) => {
   }
 };
 
-// Eliminar
+// Eliminar contacto
 exports.deleteContacto = async (req, res) => {
   try {
     const contacto = await Contacto.findByIdAndDelete(req.params.id);
