@@ -3,9 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const tabla = document.getElementById('tablaContactos');
 
   // URL según entorno
-  const API_URL = window.location.hostname.includes('localhost')
-    ? 'http://localhost:3000/api/contactos'
-    : 'https://agenda-contactos-i19h.onrender.com/api/contactos';
+  const API_URL = 'https://agenda-contactos-i19h.onrender.com/api/contactos';
+;
 
   // Cargar contactos al iniciar
   if (tabla) cargarContactos();
