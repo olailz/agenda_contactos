@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agenda de Contactos</title>
+  <link rel="stylesheet" href="style.css"> <!-- 👈 Aquí enlazamos el CSS -->
+</head>
+<body>
+  <div class="container">
+    <h1>Agenda de Contactos</h1>
+    <input type="text" id="buscar" placeholder="Buscar por nombre">
+    <button onclick="cargarContactos()">Buscar</button>
+    <button onclick="location.href='form.html'">Agregar Contacto</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaContactos"></tbody>
+    </table>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
