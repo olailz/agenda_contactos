@@ -1,103 +1,151 @@
-/* Reset básico */
+/* === RESET BÁSICO === */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
-/* Estilo general */
 body {
-  background-color: #f5f7fa;
-  color: #333;
+  background: #f4f6f8;
+  color: #2c3e50;
   padding: 20px;
 }
 
-/* Títulos */
+/* === CONTENEDOR PRINCIPAL === */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* === TÍTULOS === */
 h1 {
   text-align: center;
   margin-bottom: 20px;
-  color: #2c3e50;
+  color: #34495e;
 }
 
-/* Contenedor principal */
-.container {
-  max-width: 800px;
-  margin: auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* Tabla */
+/* === TABLA DE CONTACTOS === */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
 }
 
-table th, table td {
-  border: 1px solid #ddd;
+th, td {
   padding: 12px;
-  text-align: center;
+  text-align: left;
 }
 
-table th {
+th {
   background: #2c3e50;
   color: white;
 }
 
-table tr:nth-child(even) {
-  background: #f2f2f2;
+tr:nth-child(even) {
+  background: #ecf0f1;
 }
 
-table tr:hover {
-  background: #eaf2f8;
+tr:hover {
+  background: #dfe6e9;
 }
 
-/* Botones */
+/* === BOTONES === */
 button {
-  padding: 8px 12px;
   border: none;
+  padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
-  margin: 2px;
-  transition: 0.2s ease;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
+/* Botones generales */
 button:hover {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
-button:first-child {
+/* Botones de acción */
+button.editar {
   background: #27ae60;
   color: white;
 }
-
-button:nth-child(2) {
+button.eliminar {
   background: #e74c3c;
   color: white;
 }
-
-/* Inputs */
-input[type="text"], input[type="email"] {
-  width: 95%;
-  padding: 8px;
-  margin: 6px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+button.volver {
+  background: #7f8c8d;
+  color: white;
+}
+button.guardar {
+  background: #2980b9;
+  color: white;
 }
 
-/* Formulario */
+/* === FORMULARIO === */
 form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-form button {
-  align-self: flex-start;
-  background: #2980b9;
+label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="email"] {
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+  border-color: #2980b9;
+  box-shadow: 0 0 4px rgba(41, 128, 185, 0.6);
+}
+
+/* === CAMPO DE BÚSQUEDA === */
+#busqueda {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#busqueda input {
+  flex: 1;
+}
+
+/* === NOTIFICACIONES === */
+.notif {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 18px;
+  border-radius: 8px;
   color: white;
+  font-weight: bold;
+  z-index: 9999;
+  opacity: 0.95;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.notif.info { background: #2980b9; }
+.notif.success { background: #27ae60; }
+.notif.error { background: #e74c3c; }
+
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

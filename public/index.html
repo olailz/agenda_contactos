@@ -3,25 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <title>Agenda de Contactos</title>
-  <link rel="stylesheet" href="css/style.css"> 
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="container">
     <h1>Agenda de Contactos</h1>
-    <input type="text" id="buscar" placeholder="Buscar por nombre">
-    <button onclick="cargarContactos()">Buscar</button>
-    <button onclick="location.href='form.html'">Agregar Contacto</button>
 
-    <table>
+    <!-- Barra de búsqueda -->
+    <div id="busqueda">
+      <input type="text" id="inputBusqueda" placeholder="Buscar por nombre...">
+      <button onclick="buscarContactos()">Buscar</button>
+    </div>
+
+    <!-- Botón agregar contacto -->
+    <button class="guardar" onclick="location.href='form.html'">➕ Agregar Contacto</button>
+
+    <!-- Tabla de contactos -->
+    <table id="tablaContactos">
       <thead>
         <tr>
-          <th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Acciones</th>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Correo</th>
+          <th>Acciones</th>
         </tr>
       </thead>
-      <tbody id="tablaContactos"></tbody>
+      <tbody>
+        <!-- Aquí se insertan las filas dinámicamente con JS -->
+      </tbody>
     </table>
   </div>
 
- <script src="js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

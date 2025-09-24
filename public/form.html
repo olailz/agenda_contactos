@@ -3,20 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Formulario Contacto</title>
-  <link rel="stylesheet" href="css/style.css"> 
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>Formulario Contacto</h1>
-  <form id="formContacto">
-    <input type="hidden" id="contactoId">
-    <label>Nombre:</label>
-    <input type="text" id="nombre" required><br>
-    <label>Teléfono:</label>
-    <input type="text" id="telefono" required><br>
-    <label>Correo:</label>
-    <input type="email" id="correo"><br>
-    <button type="submit">Guardar</button>
-  </form>
+  <div class="container">
+    <h1>Formulario Contacto</h1>
+
+    <form id="formContacto">
+      <input type="hidden" id="contactoId">
+
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" required placeholder="Ej: Juan Pérez"><br>
+
+      <label for="telefono">Teléfono:</label>
+      <input type="text" id="telefono" required placeholder="Ej: 12345678"><br>
+
+      <label for="correo">Correo:</label>
+      <input type="email" id="correo" placeholder="Ej: ejemplo@correo.com"><br>
+
+      <button type="submit">Guardar</button>
+    </form>
+
+    <!-- Botón para regresar -->
+    <button onclick="location.href='index.html'" style="margin-top:10px; background:#7f8c8d; color:white;">
+      Volver a la Agenda
+    </button>
+  </div>
 
   <script src="js/main.js"></script>
 </body>
