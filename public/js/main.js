@@ -1,21 +1,21 @@
-const API_URL = "/api/contactos";
+// Detectar si estamos en local o en producción (Render)
+const API_URL = window.location.hostname.includes("localhost")
+  ? "http://localhost:3000/api/contactos"
+  : "/api/contactos";
 
 /* ========== VALIDACIONES FRONTEND ========== */
 function validarFormulario(data) {
-  // Nombre: mínimo 3 caracteres
   if (!data.nombre || data.nombre.trim().length < 3) {
     mostrarNotificacion("❌ El nombre debe tener al menos 3 caracteres", "error");
     return false;
   }
 
-  // Teléfono: solo números, entre 8 y 15 dígitos
   const telRegex = /^[0-9]{8,15}$/;
   if (!telRegex.test(data.telefono)) {
     mostrarNotificacion("❌ El teléfono debe tener entre 8 y 15 dígitos numéricos", "error");
     return false;
   }
 
-  // Correo: válido si no está vacío
   if (data.correo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.correo)) {
     mostrarNotificacion("❌ El correo no tiene un formato válido", "error");
     return false;
@@ -70,7 +70,6 @@ document.getElementById("formContacto")?.addEventListener("submit", async e => {
     correo: document.getElementById("correo").value.trim()
   };
 
-  // Validar antes de enviar
   if (!validarFormulario(data)) return;
 
   const method = id ? "PUT" : "POST";
