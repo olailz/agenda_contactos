@@ -2,15 +2,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('formContacto');
   const tabla = document.getElementById('tablaContactos');
 
-  // 🔹 URL fija de Render
-  const API_URL = 'https://agenda-contactos-i19h.onrender.com/api/contactos';
+  // URL según entorno
+  const API_URL = window.location.hostname.includes('localhost')
+    ? 'http://localhost:3000/api/contactos'
+    : 'https://agenda-contactos-i19h.onrender.com/api/contactos';
 
   // Cargar contactos al iniciar
-  cargarContactos();
+  if (tabla) cargarContactos();
 
-  // Manejar envío del formulario (crear o actualizar)
+  // Envío del formulario
   if (form) {
-    form.addEventListener('submit', async function (e) {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const id = document.getElementById('contactoId').value;
@@ -31,12 +33,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (!res.ok) throw new Error("Error al guardar contacto");
-
-        alert('✅ Contacto guardado con éxito');
+        alert('✅ Contacto guardado');
         window.location.href = 'index.html';
-      } catch (error) {
-        console.error('Error:', error);
-        alert(`❌ ${error.message}`);
+      } catch (err) {
+        console.error(err);
+        alert(`❌ ${err.message}`);
       }
     });
   }
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Función para cargar contactos
   async function cargarContactos() {
     const buscar = document.getElementById('buscar')?.value || '';
-    let url = `${API_URL}?nombre=${buscar}`;
+    const url = `${API_URL}?nombre=${buscar}`;
 
     try {
       const res = await fetch(url);
@@ -52,26 +53,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const contactos = await res.json();
       mostrarContactos(contactos);
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (err) {
+      console.error(err);
       alert('❌ Error al cargar contactos');
     }
   }
 
-  // Mostrar contactos en la tabla
+  // Mostrar contactos
   function mostrarContactos(contactos) {
     if (!tabla) return;
-
-    tabla.innerHTML = '';
+    tabla.innerHTML = `
+      <tr>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+      </tr>
+    `;
 
     if (contactos.length === 0) {
-      tabla.innerHTML = `<tr><td colspan="4">No hay contactos</td></tr>`;
+      tabla.innerHTML += `<tr><td colspan="4">No hay contactos</td></tr>`;
       return;
     }
 
     contactos.forEach(c => {
       const row = document.createElement('tr');
-
       row.innerHTML = `
         <td>${c.nombre}</td>
         <td>${c.telefono}</td>
@@ -81,43 +87,39 @@ document.addEventListener('DOMContentLoaded', function () {
           <button onclick="eliminarContacto('${c._id}')">Eliminar</button>
         </td>
       `;
-
       tabla.appendChild(row);
     });
   }
 
   // Editar contacto
-  window.editarContacto = async function (id) {
+  window.editarContacto = async (id) => {
     try {
       const res = await fetch(`${API_URL}/${id}`);
       if (!res.ok) throw new Error("Error al obtener contacto");
-
       const c = await res.json();
       window.location.href =
         `form.html?id=${id}&nombre=${encodeURIComponent(c.nombre)}&telefono=${encodeURIComponent(c.telefono)}&correo=${encodeURIComponent(c.correo || '')}`;
-    } catch (error) {
-      console.error('Error:', error);
-      alert('❌ Error al cargar contacto para editar');
+    } catch (err) {
+      console.error(err);
+      alert('❌ Error al cargar contacto');
     }
   };
 
   // Eliminar contacto
-  window.eliminarContacto = async function (id) {
+  window.eliminarContacto = async (id) => {
     if (!confirm('¿Seguro que deseas eliminar este contacto?')) return;
-
     try {
       const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error("Error al eliminar contacto");
-
       alert('✅ Contacto eliminado');
       cargarContactos();
-    } catch (error) {
-      console.error('Error:', error);
-      alert(`❌ ${error.message}`);
+    } catch (err) {
+      console.error(err);
+      alert(`❌ ${err.message}`);
     }
   };
 
-  // Pre-cargar datos en formulario al editar
+  // Precargar formulario
   const params = new URLSearchParams(window.location.search);
   if (params.get('id')) {
     document.getElementById('contactoId').value = params.get('id');
@@ -126,6 +128,5 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('correo').value = params.get('correo');
   }
 
-  // Hacer accesible cargarContactos para botones de búsqueda
   window.cargarContactos = cargarContactos;
 });
